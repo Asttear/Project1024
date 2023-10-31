@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1024.Server", "Project1024.Server\Project1024.Server.csproj", "{A859F04C-D85A-434C-819B-2BB3D18F5AAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1024.Server", "Project1024.Server\Project1024.Server.csproj", "{A859F04C-D85A-434C-819B-2BB3D18F5AAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1024.Shared", "Project1024.Shared\Project1024.Shared.csproj", "{341B1215-2611-4473-BB33-936E9D22B293}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1024.Wasm", "Project1024.Wasm\Project1024.Wasm.csproj", "{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{A859F04C-D85A-434C-819B-2BB3D18F5AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A859F04C-D85A-434C-819B-2BB3D18F5AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A859F04C-D85A-434C-819B-2BB3D18F5AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341B1215-2611-4473-BB33-936E9D22B293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341B1215-2611-4473-BB33-936E9D22B293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341B1215-2611-4473-BB33-936E9D22B293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341B1215-2611-4473-BB33-936E9D22B293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
