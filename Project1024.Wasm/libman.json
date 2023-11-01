@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "MaterialDesign-Webfont@7.3.67",
+      "destination": "wwwroot/lib/MaterialDesign-Webfont/"
+    }
+  ]
+}
