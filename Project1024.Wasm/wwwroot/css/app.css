@@ -24,7 +24,7 @@
 }
 
     .blazor-error-boundary::after {
-        content: "An error has occurred."
+        content: "出现错误。"
     }
 
 .loading-progress {
@@ -57,5 +57,5 @@
 }
 
     .loading-progress-text:after {
-        content: var(--blazor-load-percentage-text, "Loading");
+        content: var(--blazor-load-percentage-text, "载入中");
     }
