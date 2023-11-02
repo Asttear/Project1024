@@ -5,7 +5,7 @@ namespace Project1024.Server.Data
 {
     public class VideoContext : DbContext
     {
-        public DbSet<Video> Vidoes { get; set; }
+        public DbSet<Video> Videos { get; set; }
         public DbSet<VideoCategory> VideoCategories { get; set; }
 
         public VideoContext(DbContextOptions<VideoContext> options) : base(options)

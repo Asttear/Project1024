@@ -11,7 +11,7 @@ using Project1024.Server.Data;
 namespace Project1024.Server.Migrations
 {
     [DbContext(typeof(VideoContext))]
-    [Migration("20231101113332_Initial")]
+    [Migration("20231101145130_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -32,6 +32,12 @@ namespace Project1024.Server.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int")
                         .HasColumnName("category_id");
+
+                    b.Property<string>("CoverUrl")
+                        .IsRequired()
+                        .HasMaxLength(511)
+                        .HasColumnType("varchar(511)")
+                        .HasColumnName("cover_url");
 
                     b.Property<string>("Description")
                         .IsRequired()

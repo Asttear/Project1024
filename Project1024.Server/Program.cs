@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project1024.Server.Data;
+using Project1024.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<VideoContext>(options =>
 {
@@ -17,6 +19,8 @@ builder.Services.AddDbContext<VideoContext>(options =>
     options.UseSnakeCaseNamingConvention();
 });
 
+builder.Services.AddScoped<VideoService>();
+builder.Services.Configure<QiniuOptions>(builder.Configuration.GetSection("Qiniu"));
 
 var app = builder.Build();
 

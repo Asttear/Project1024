@@ -30,6 +30,12 @@ namespace Project1024.Server.Migrations
                         .HasColumnType("int")
                         .HasColumnName("category_id");
 
+                    b.Property<string>("CoverUrl")
+                        .IsRequired()
+                        .HasMaxLength(511)
+                        .HasColumnType("varchar(511)")
+                        .HasColumnName("cover_url");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)

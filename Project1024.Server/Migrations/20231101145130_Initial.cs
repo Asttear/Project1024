@@ -41,6 +41,7 @@ namespace Project1024.Server.Migrations
                     duration = table.Column<TimeSpan>(type: "time(6)", nullable: false),
                     views = table.Column<int>(type: "int", nullable: false),
                     url = table.Column<string>(type: "varchar(511)", maxLength: 511, nullable: false),
+                    cover_url = table.Column<string>(type: "varchar(511)", maxLength: 511, nullable: false),
                     category_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

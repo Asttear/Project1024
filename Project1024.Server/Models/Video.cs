@@ -9,7 +9,7 @@ namespace Project1024.Server.Models;
 [Table("video")]
 public class Video
 {
-    public Video(int id, string title, string description, DateTimeOffset uploadTime, TimeSpan duration, int views, string url)
+    public Video(int id, string title, string description, DateTimeOffset uploadTime, TimeSpan duration, int views, string url, string coverUrl)
     {
         Id = id;
         Title = title;
@@ -18,6 +18,7 @@ public class Video
         Duration = duration;
         Views = views;
         Url = url;
+        CoverUrl = coverUrl;
         Category = null!;
     }
 
@@ -28,6 +29,7 @@ public class Video
     public TimeSpan Duration { get; set; }
     public int Views { get; set; }
     [MaxLength(511)] public string Url { get; set; }
+    [MaxLength(511)] public string CoverUrl { get; set; }
 
     public VideoCategory Category { get; set; }
 
