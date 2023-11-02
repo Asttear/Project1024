@@ -5,9 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1024.Server", "Project1024.Server\Project1024.Server.csproj", "{A859F04C-D85A-434C-819B-2BB3D18F5AAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1024.Shared", "Project1024.Shared\Project1024.Shared.csproj", "{341B1215-2611-4473-BB33-936E9D22B293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1024.Shared", "Project1024.Shared\Project1024.Shared.csproj", "{341B1215-2611-4473-BB33-936E9D22B293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1024.Wasm", "Project1024.Wasm\Project1024.Wasm.csproj", "{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project1024.Wasm", "Project1024.Wasm\Project1024.Wasm.csproj", "{2774D942-8D24-43A2-B9E7-0C4BB2BFC26E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
