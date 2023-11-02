@@ -16,28 +16,45 @@
      <MDivider></MDivider>
 
      <MList Nav Routable>
+        <MListItem Href="/Discover" ActiveClass="primary--text">
+            <MListItemIcon>
+                <MIcon>mdi-plus</MIcon>
+            </MListItemIcon>
+            <MListItemContent>
+                <MListItemTitle>发现</MListItemTitle>
+            </MListItemContent>
+        </MListItem>
         <MListItem Href="/" ActiveClass="primary--text">
             <MListItemIcon>
                 <MIcon>mdi-home</MIcon>
             </MListItemIcon>
             <MListItemContent>
-                <MListItemTitle>Home</MListItemTitle>
+                <MListItemTitle>推荐</MListItemTitle>
             </MListItemContent>
         </MListItem>
-        <MListItem Href="/counter" ActiveClass="primary--text">
-            <MListItemIcon>
-                <MIcon>mdi-plus</MIcon>
-            </MListItemIcon>
-            <MListItemContent>
-                <MListItemTitle>Counter</MListItemTitle>
-            </MListItemContent>
-        </MListItem>
-        <MListItem Href="/fetchdata" ActiveClass="primary--text">
+        <MDivider></MDivider>
+        <MListItem Href="/Category/Hot" ActiveClass="primary--text">
             <MListItemIcon>
                 <MIcon>mdi-list-box</MIcon>
             </MListItemIcon>
             <MListItemContent>
-                <MListItemTitle>Fetch data</MListItemTitle>
+                <MListItemTitle>热点</MListItemTitle>
+            </MListItemContent>
+        </MListItem>
+        <MListItem Href="/Category/Game" ActiveClass="primary--text">
+            <MListItemIcon>
+                <MIcon>mdi-list-box</MIcon>
+            </MListItemIcon>
+            <MListItemContent>
+                <MListItemTitle>游戏</MListItemTitle>
+            </MListItemContent>
+        </MListItem>
+        <MListItem Href="/Category/Music" ActiveClass="primary--text">
+            <MListItemIcon>
+                <MIcon>mdi-list-box</MIcon>
+            </MListItemIcon>
+            <MListItemContent>
+                <MListItemTitle>音乐</MListItemTitle>
             </MListItemContent>
         </MListItem>
     </MList>
