@@ -1,0 +1,15 @@
+﻿<MAppBar App>
+    <MTextField Clearable SoloInverted @bind-Value="_search"
+                 Label="搜索无限可能……"
+                 HideDetails="true"
+                 AppendOuterIcon="mdi-magnify"
+                 OnClearClick="() => _search = string.Empty">
+     </MTextField>
+     <MSpacer></MSpacer>
+     <MButton Text Color="primary">关于站点</MButton>
+     <MButton Color="primary">登录</MButton>
+ </MAppBar>
+
+ @code {
+    private string _search = "";
+ }

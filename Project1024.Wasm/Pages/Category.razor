@@ -1,0 +1,9 @@
+@page "/Category/{Name?}"
+
+<h1>分类</h1>
+当前分类：@Name
+
+@code {
+    [Parameter]
+    public string? Name { get; set; }
+}
