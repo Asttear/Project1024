@@ -13,7 +13,9 @@ builder.Services.AddMasaBlazor(options =>
     {
         theme.Dark = true;
         theme.Themes.Dark.Primary = "#FFC107";
-        theme.Themes.Dark.Info = "#FFE57F";
+        theme.Themes.Dark.Secondary = "#424242";
+        theme.Themes.Dark.Accent = "#FFFF00";
+        theme.Themes.Dark.Info = "#FFC107";
     });
 });
 
