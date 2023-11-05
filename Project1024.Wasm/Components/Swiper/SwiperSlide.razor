@@ -1,0 +1,14 @@
+﻿<swiper-slide class="@Class" style="@Style">
+    @ChildContent
+</swiper-slide>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = "";
+
+    [Parameter]
+    public string Style { get; set; } = "";
+}
