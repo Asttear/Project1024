@@ -7,7 +7,7 @@
 
 @code {
     private ElementReference _swiperContainer;
-    private IJSObjectReference? _swiper;
+    private IJSObjectReference? _jsSwiper;
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -17,14 +17,14 @@
 
     public async Task SlidePrevAsync()
     {
-        if (_swiper is not null)
-            await _swiper.InvokeVoidAsync("slidePrev");
+        if (_jsSwiper is not null)
+            await _jsSwiper.InvokeVoidAsync("slidePrev");
     }
 
     public async Task SlideNextAsync()
     {
-        if (_swiper is not null)
-            await _swiper.InvokeVoidAsync("slideNext");
+        if (_jsSwiper is not null)
+            await _jsSwiper.InvokeVoidAsync("slideNext");
     }
 
     public async ValueTask DisposeAsync()
@@ -35,11 +35,11 @@
 
     protected virtual async ValueTask DisposeAsyncCore()
     {
-        if (_swiper is not null)
+        if (_jsSwiper is not null)
         {
-            await _swiper.DisposeAsync().ConfigureAwait(false);
+            await _jsSwiper.DisposeAsync().ConfigureAwait(false);
         }
-        _swiper = null;
+        _jsSwiper = null;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -47,7 +47,7 @@
         if (firstRender)
         {
             await using var module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Swiper/SwiperContainer.razor.js");
-            _swiper = await module.InvokeAsync<IJSObjectReference>("getSwiper", _swiperContainer);
+            _jsSwiper = await module.InvokeAsync<IJSObjectReference>("getSwiper", _swiperContainer);
         }
     }
 }
