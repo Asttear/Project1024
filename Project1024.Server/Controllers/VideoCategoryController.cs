@@ -21,7 +21,7 @@ public class VideoCategoryController : ControllerBase
         return await _videoCategoryService.GetVideoCategoriesAsync();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<List<VideoDto>?> GetVideosByCategory(int id, int page = 0, int size = 5)
     {
         return await _videoCategoryService.GetVideosByCategoryAsync(id, page, size);
