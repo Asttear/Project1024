@@ -44,7 +44,10 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await using var module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Swiper/SwiperContainer.razor.js");
-        _swiper = await module.InvokeAsync<IJSObjectReference>("getSwiper", _swiperContainer);
+        if (firstRender)
+        {
+            await using var module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Swiper/SwiperContainer.razor.js");
+            _swiper = await module.InvokeAsync<IJSObjectReference>("getSwiper", _swiperContainer);
+        }
     }
 }
