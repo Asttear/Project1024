@@ -11,5 +11,5 @@ public record UserDto
     int Id,
     string Nickname,
     string AvatarUrl,
-    string signature
+    string Signature
 );

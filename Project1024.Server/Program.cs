@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Project1024.Server.Models;
 using Microsoft.AspNetCore.Identity;
+using Project1024.Shared.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -40,25 +41,25 @@ builder.Services.AddDbContext<UserContext>(options =>
 });
 
 builder.Services.AddIdentityCore<User>(options =>
-{
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireNonAlphanumeric = false;
-})
-.AddEntityFrameworkStores<UserContext>();
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+    })
+    .AddEntityFrameworkStores<UserContext>();
 
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<VideoService>();
-builder.Services.AddScoped<VideoCategoryService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IVideoService, VideoService>();
+builder.Services.AddScoped<IVideoCategoryService, VideoCategoryService>();
 builder.Services.AddScoped<UserFollowerService>();
 builder.Services.AddScoped<LikeService>();
 builder.Services.AddSingleton<QiniuService>();
 builder.Services.Configure<QiniuOptions>(builder.Configuration.GetSection("Qiniu"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-var securityKey = builder.Configuration.GetRequiredSection("JwtSettings")["SecurityKey"] 
-    ?? throw new InvalidOperationException("SecurityKey cannot be null!");
+var securityKey = builder.Configuration.GetRequiredSection("JwtSettings")["SecurityKey"]
+                  ?? throw new InvalidOperationException("SecurityKey cannot be null!");
 var tokenValidationParameters = new TokenValidationParameters
 {
     ValidateIssuer = false,

@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Project1024.Server.Data;
 using Project1024.Shared.Models;
+using Project1024.Shared.Services;
 using Qiniu.Storage;
 using Qiniu.Util;
 
 namespace Project1024.Server.Services;
 
-public class VideoService
+public class VideoService : IVideoService
 {
     private readonly VideoContext _videoContext;
     private readonly UserContext _userContext;
@@ -22,27 +24,28 @@ public class VideoService
         _userContext = userContext;
     }
 
-    public IEnumerable<VideoDto> GetVideoList(int page, int size)
+    public async Task<List<VideoDto>?> GetVideosAsync(int page, int size)
     {
-        return _videoContext.Videos
+        return await _videoContext.Videos
            .Skip(page * size)
            .Take(size)
            .OrderBy(v => v.Id)
            .Select(v => new VideoDto(v.Id,
                                      v.Category.Id,
                                      v.UserId,
-                                     _userContext.Users.Where(u => u.Id == v.UserId).Single().Nickname ?? "",
+                                     _userContext.Users.Single(u => u.Id == v.UserId).Nickname,
                                      v.Title,
                                      v.UploadTime,
                                      _qiniuService.DownloadTokenGenerator(v.CoverUrl, _qiniuOptions),
-                                     _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions)));
+                                     _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions)))
+           .ToListAsync();
     }
 
-    public IEnumerable<VideoCategoryDto> GetVideoCategoryList()
-    {
-        return _videoContext.VideoCategories
-            .Select(c => new VideoCategoryDto(c.Id, c.Name));
-    }
+    // public async Task<List<VideoCategoryDto>> GetVideoCategoriesAsync()
+    // {
+    //     return await _videoContext.VideoCategories
+    //         .Select(c => new VideoCategoryDto(c.Id, c.Name)).ToListAsync();
+    // }
 
     //public IEnumerable<VideoDto> GetVideoListByCategory(int page, int size, int categoryId)
     //{

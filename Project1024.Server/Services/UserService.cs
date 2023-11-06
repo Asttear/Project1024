@@ -7,10 +7,11 @@ using Project1024.Shared.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Project1024.Shared.Services;
 
 namespace Project1024.Server.Services;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly UserManager<User> _userManager;
     private readonly JwtSettings _jwtSettings;
@@ -21,49 +22,40 @@ public class UserService
         _jwtSettings = jwtSettings.Value;
     }
 
-    public async Task<TokenResult> RegisterAsync(string username, string password, int age)
+    public async Task<(RegisterResult Result, string? Token)> RegisterAsync(string username, string password, int age)
     {
         var existingUser = await _userManager.FindByNameAsync(username);
         if (existingUser != null)
         {
-            return new TokenResult()
-            {
-                Errors = new[] { "user already exists!" }, //用户已存在
-            };
+            return (RegisterResult.AlreadyExists, null);
         }
+
         var newUser = new User() { UserName = username, Age = age };
         var isCreated = await _userManager.CreateAsync(newUser, password);
         if (!isCreated.Succeeded)
         {
-            return new TokenResult()
-            {
-                Errors = isCreated.Errors.Select(p => p.Description)
-            };
+            return (RegisterResult.ServerError, null);
         }
-        return GenerateJwtToken(newUser);
+
+        return (RegisterResult.Success, GenerateJwtToken(newUser));
     }
-    public async Task<TokenResult> LoginAsync(string username, string password)
+
+    public async Task<(LoginResult Result, string? Token)> LoginAsync(string username, string password)
     {
         var existingUser = await _userManager.FindByNameAsync(username);
         if (existingUser == null)
         {
-            return new TokenResult()
-            {
-                Errors = new[] { "user does not exist!" }, //用户不存在
-            };
+            return (LoginResult.NotFound, null);
         }
         var isCorrect = await _userManager.CheckPasswordAsync(existingUser, password);
         if (!isCorrect)
         {
-            return new TokenResult()
-            {
-                Errors = new[] { "wrong user name or password!" }, //用户名或密码错误
-            };
+            return (LoginResult.WrongPassword, null);
         }
-        return GenerateJwtToken(existingUser);
+        return (LoginResult.Success, GenerateJwtToken(existingUser));
     }
 
-    private TokenResult GenerateJwtToken(User user)
+    private string GenerateJwtToken(User user)
     {
         var key = Encoding.ASCII.GetBytes(_jwtSettings.SecurityKey);
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -84,10 +76,6 @@ public class UserService
         var jwtTokenHandler = new JwtSecurityTokenHandler();
         var securityToken = jwtTokenHandler.CreateToken(tokenDescriptor);
         var token = jwtTokenHandler.WriteToken(securityToken);
-        return new TokenResult()
-        {
-            AccessToken = token,
-            TokenType = "Bearer"
-        };
+        return token;
     }
 }

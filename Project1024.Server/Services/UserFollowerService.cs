@@ -24,13 +24,15 @@ public class UserFollowerService
     public IEnumerable<UserDto> GetFanList(int id, int page, int size)
     {
         List<int> followerIdList = _videoContext.UserFollowers.Where(f => f.FollowedId == id).Select(f => f.FollowerId).ToList();
-        return _userContext.Users.Where(u => followerIdList.Contains(u.Id)).Select(u => new UserDto(u.Id, u.Nickname, _qiniuService.DownloadTokenGenerator(u.AvatarUrl, _qiniuOptions), u.Signature));
+        return _userContext.Users.Where(u => followerIdList.Contains(u.Id))
+                                 .Select(u => new UserDto(u.Id, u.Nickname, _qiniuService.DownloadTokenGenerator(u.AvatarUrl, _qiniuOptions), u.Signature));
     }
 
     public IEnumerable<UserDto> GetFollowerList(int id, int page, int size)
     {
         List<int> followedIdList = _videoContext.UserFollowers.Where(f => f.FollowerId == id).Select(f => f.FollowedId).ToList();
-        return _userContext.Users.Where(u => followedIdList.Contains(u.Id)).Select(u => new UserDto(u.Id, u.Nickname, _qiniuService.DownloadTokenGenerator(u.AvatarUrl, _qiniuOptions), u.Signature));
+        return _userContext.Users.Where(u => followedIdList.Contains(u.Id))
+                                 .Select(u => new UserDto(u.Id, u.Nickname, _qiniuService.DownloadTokenGenerator(u.AvatarUrl, _qiniuOptions), u.Signature));
     }
 
     public bool Follow(int followedId, int followerId)

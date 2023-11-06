@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project1024.Shared.Responses;
+namespace Project1024.Shared.Models;
 
-public class FailedResponse
+public enum LoginResult
 {
-    public IEnumerable<string>? Errors { get; set; }
+    Success,
+    NotFound,
+    WrongPassword
 }

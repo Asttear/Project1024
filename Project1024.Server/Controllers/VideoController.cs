@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project1024.Server.Models;
 using Project1024.Server.Services;
 using Project1024.Shared.Models;
+using Project1024.Shared.Services;
 using System.Security.Claims;
 
 namespace Project1024.Server.Controllers;
@@ -12,11 +13,11 @@ namespace Project1024.Server.Controllers;
 [Route("api/[controller]")]
 public class VideoController : ControllerBase
 {
-    private readonly VideoService _videoService;
+    private readonly IVideoService _videoService;
     private readonly UserManager<User> _userManager;
     private readonly LikeService _likeService;
 
-    public VideoController(VideoService videoService, UserManager<User> userManager, LikeService likeService)
+    public VideoController(IVideoService videoService, UserManager<User> userManager, LikeService likeService)
     {
         _videoService = videoService;
         _userManager = userManager;
@@ -24,9 +25,9 @@ public class VideoController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<VideoDto> Get(int page = 0, int size = 5)
+    public async Task<List<VideoDto>?> GetVideos(int page = 0, int size = 5)
     {
-        return _videoService.GetVideoList(page, size);
+        return await _videoService.GetVideosAsync(page, size);
     }
 
     [HttpPost("{id}/like")]

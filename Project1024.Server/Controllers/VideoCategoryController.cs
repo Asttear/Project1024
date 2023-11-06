@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project1024.Server.Services;
 using Project1024.Shared.Models;
+using Project1024.Shared.Services;
 
 namespace Project1024.Server.Controllers;
 
@@ -8,23 +8,22 @@ namespace Project1024.Server.Controllers;
 [Route("api/[controller]")]
 public class VideoCategoryController : ControllerBase
 {
-    private readonly VideoCategoryService _videoCategoryService;
+    private readonly IVideoCategoryService _videoCategoryService;
 
-    public VideoCategoryController(VideoCategoryService videoCategoryService)
+    public VideoCategoryController(IVideoCategoryService videoCategoryService)
     {
         _videoCategoryService = videoCategoryService;
     }
 
-
     [HttpGet]
-    public IEnumerable<VideoCategoryDto> Get()
+    public async Task<List<VideoCategoryDto>?> GetCategories()
     {
-        return _videoCategoryService.GetVideoCategoryList();
+        return await _videoCategoryService.GetVideoCategoriesAsync();
     }
 
     [HttpGet("{id}")]
-    public IEnumerable<VideoDto> Get(int id, int page = 0, int size = 5)
+    public async Task<List<VideoDto>?> GetVideosByCategory(int id, int page = 0, int size = 5)
     {
-        return _videoCategoryService.GetVideoListByCategoryId(id, page, size);
+        return await _videoCategoryService.GetVideosByCategoryAsync(id, page, size);
     }
 }
