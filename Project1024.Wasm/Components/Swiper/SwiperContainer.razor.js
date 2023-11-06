@@ -1,17 +1,16 @@
-let helper;
+let element, helper;
 
 export function init(el, dotnetHelper) {
     helper = dotnetHelper;
-    el.addEventListener("swiperrealindexchange", onRealIndexChange);
-    return el.swiper;
+    element = el;
+    element.addEventListener("swiperrealindexchange", onRealIndexChange);
+    return element.swiper;
 }
 
-export function destroy() {
-    el.removeEventListener("swiperrealindexchange", onRealIndexChange);
+export function dispose() {
+    element.removeEventListener("swiperrealindexchange", onRealIndexChange);
 }
 
 async function onRealIndexChange(e) {
-    if (true) {
-        await helper.invokeMethodAsync("OnIndexChanged", e.detail[0].realIndex);
-    }
+    await helper.invokeMethodAsync("OnIndexChanged", e.detail[0].realIndex);
 }
