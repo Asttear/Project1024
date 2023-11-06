@@ -1,11 +1,50 @@
-﻿<swiper-container @ref="_swiperContainer"
-                  class="@Class"
-                  style="@Style"
-                  direction="@Direction"
-                  mousewheel="@MouseWheel"
-                  keyboard="@Keyboard"
-                  focusable-elements="@FocusableElements"
-                  no-swiping-selector="@NoSwipingSelector"
-                  loop="@Loop">
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<swiper-container @ref="_swiperContainer" @attributes="Attributes">
     @ChildContent
 </swiper-container>
+
+@code {
+    private ElementReference _swiperContainer;
+    private IJSObjectReference? _swiper;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? Attributes { get; set; }
+
+    public async Task SlidePrevAsync()
+    {
+        if (_swiper is not null)
+            await _swiper.InvokeVoidAsync("slidePrev");
+    }
+
+    public async Task SlideNextAsync()
+    {
+        if (_swiper is not null)
+            await _swiper.InvokeVoidAsync("slideNext");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore().ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual async ValueTask DisposeAsyncCore()
+    {
+        if (_swiper is not null)
+        {
+            await _swiper.DisposeAsync().ConfigureAwait(false);
+        }
+        _swiper = null;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await using var module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Swiper/SwiperContainer.razor.js");
+        _swiper = await module.InvokeAsync<IJSObjectReference>("getSwiper", _swiperContainer);
+    }
+}

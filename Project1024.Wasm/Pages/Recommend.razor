@@ -3,10 +3,17 @@
 @inject IJSRuntime JS
 
 <div class="d-flex" style="position:absolute; height: 100%; width: 100%">
-    <SwiperContainer @ref="_swiper" Class="flex-grow-1">
+    <SwiperContainer @ref="_swiper"
+                     class="flex-grow-1"
+                     direction="vertical"
+                     mousewheel="true"
+                     keyboard="true"
+                     focusable-elements="button"
+                     no-swiping-selector=".m-btn"
+                     loop="true">
         @for (int i = 0; i < 9; i++)
         {
-            <SwiperSlide @key="i" Class="pa-2" Style="box-sizing: border-box">
+            <SwiperSlide @key="i" class="pa-2" style="box-sizing: border-box">
                 <VideoPlayer Style="width: 100%; height: 100%" />
             </SwiperSlide>
         }
