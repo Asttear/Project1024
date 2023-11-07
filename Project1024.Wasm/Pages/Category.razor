@@ -1,9 +1,51 @@
-@page "/Category/{Name?}"
+@page "/Category/{Id:int}"
+@using Project1024.Shared.Models;
+@using Project1024.Shared.Services;
+@inject IVideoCategoryService VideoCategoryService
 
-<h1>鍒嗙被</h1>
-褰撳墠鍒嗙被锛欯Name
+<MContainer Fluid Class="pa-8">
+     <h1 class="text-h4 mb-4">@_category?.CategoryName</h1>
+     <MRow>
+         @foreach (var video in _videos)
+        {
+            <MCol Cols="12" Sm="6" Md="4" Lg="3">
+                <MCard OnClick="() => { _video = video; _showVideo = true; }">
+                    <MImage Src="@video.CoverUrl" Height="200"></MImage>
+
+                    <MCardTitle>
+                        @video.Title
+                    </MCardTitle>
+                    <MCardSubtitle>
+                        @video.AuthorName · @video.CreatedTime.ToString("yyyy年MM月dd日")
+                    </MCardSubtitle>
+                </MCard>
+            </MCol>
+        }
+    </MRow>
+    <PModal @bind-Value="_showVideo" ContentClass="pa-0">
+        <TitleContent>
+            @_video?.Title
+        </TitleContent>
+        <ChildContent>
+            <VideoPlayer @ref="_player" Play="_showVideo" Video="_video" Style="width: 100%; height: 100%" />
+        </ChildContent>
+    </PModal>
+</MContainer>
 
 @code {
+    private bool _showVideo = false;
+    private VideoPlayer _player = null!;
+    private VideoCategoryDto? _category;
+    private List<VideoDto> _videos = null!;
+    private VideoDto? _video;
+
     [Parameter]
-    public string? Name { get; set; }
+    public int Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var categories = await VideoCategoryService.GetVideoCategoriesAsync();
+        _category = categories?.Single(c => c.CategoryId == Id);
+        _videos = await VideoCategoryService.GetVideosByCategoryAsync(Id, 0, 5) ?? new();
+    }
 }

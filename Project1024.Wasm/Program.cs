@@ -22,5 +22,6 @@ builder.Services.AddMasaBlazor(options =>
 });
 
 builder.Services.AddScoped<IVideoService, VideoService>();
+builder.Services.AddScoped<IVideoCategoryService, VideoCategoryService>();
 
 await builder.Build().RunAsync();
