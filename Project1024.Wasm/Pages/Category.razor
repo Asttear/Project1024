@@ -3,7 +3,7 @@
 @using Project1024.Shared.Services;
 @inject IVideoCategoryService VideoCategoryService
 
-<MContainer @ref="_container" Fluid Class="pa-8">
+<MContainer Fluid Class="pa-8">
      <h1 class="text-h4 mb-4">@_category?.CategoryName</h1>
      <MRow>
          @foreach (var video in _videos)
@@ -30,15 +30,14 @@
             <VideoPlayer @ref="_player" Play="_showVideo" Video="_video" Style="width: 100%; height: 100%" />
         </ChildContent>
     </PModal>
-    <MInfiniteScroll Class="mb-n8" OnLoad="@OnLoad" Parent="_container.Ref"></MInfiniteScroll>
 </MContainer>
+<MInfiniteScroll @key="Id" Class="mt-n8" OnLoad="@OnLoad" Parent="@("window")"></MInfiniteScroll>
 
 @code {
     private const int PageSize = 8;
 
-    private int _page = 0;
+    private int _nextPage = 0;
     private bool _showVideo = false;
-    private MContainer _container = null!;
     private VideoPlayer _player = null!;
     private VideoCategoryDto? _category;
     private List<VideoDto> _videos = new();
@@ -51,11 +50,13 @@
     {
         var categories = await VideoCategoryService.GetVideoCategoriesAsync();
         _category = categories?.Single(c => c.CategoryId == Id);
+        _videos.Clear();
+        _nextPage = 0;
     }
 
     private async Task OnLoad(InfiniteScrollLoadEventArgs args)
     {
-        var list = await VideoCategoryService.GetVideosByCategoryAsync(Id, ++_page, PageSize);
+        var list = await VideoCategoryService.GetVideosByCategoryAsync(Id, _nextPage++, PageSize);
         if (list is null)
         {
             args.Status = InfiniteScrollLoadStatus.Error;
