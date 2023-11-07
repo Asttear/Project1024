@@ -9,7 +9,7 @@ namespace Project1024.Server.Models;
 [Table("video")]
 public class Video
 {
-    public Video(int id, string title, string description, DateTimeOffset uploadTime, TimeSpan duration, int views, string url, string coverUrl)
+    public Video(int id, string title, string description, DateTimeOffset uploadTime, TimeSpan duration, int views, string url, string coverUrl, int plays, int userId)
     {
         Id = id;
         Title = title;
@@ -20,18 +20,22 @@ public class Video
         Url = url;
         CoverUrl = coverUrl;
         Category = null!;
+        Plays = plays;
+        UserId = userId;
     }
 
     [Key] public int Id { get; set; }
     [MaxLength(50)] public string Title { get; set; }
     [MaxLength(200)] public string Description { get; set; }
+
+    public int UserId { get; set; }
     public DateTimeOffset UploadTime { get; set; }
     public TimeSpan Duration { get; set; }
     public int Views { get; set; }
     [MaxLength(511)] public string Url { get; set; }
     [MaxLength(511)] public string CoverUrl { get; set; }
-
     public VideoCategory Category { get; set; }
+    public int Plays { get; set; }
 
 
     //视频点赞数

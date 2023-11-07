@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project1024.Server.Data;
 
@@ -10,9 +11,11 @@ using Project1024.Server.Data;
 namespace Project1024.Server.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20231106042322_update1")]
+    partial class update1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,12 +254,6 @@ namespace Project1024.Server.Migrations.User
                         .HasColumnType("longtext")
                         .HasColumnName("security_stamp");
 
-                    b.Property<string>("Signature")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("signature");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("two_factor_enabled");
@@ -265,6 +262,12 @@ namespace Project1024.Server.Migrations.User
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)")
                         .HasColumnName("user_name");
+
+                    b.Property<string>("signature")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("signature");
 
                     b.HasKey("Id")
                         .HasName("pk_user");

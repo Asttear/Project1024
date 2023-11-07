@@ -68,11 +68,13 @@ public class UserService
         var key = Encoding.ASCII.GetBytes(_jwtSettings.SecurityKey);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
+            Subject = new ClaimsIdentity(new Claim[]
             {
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
-        }),
+                //Jti:JWT ID，调用方法生成32位无连字符字符串作为唯一标识符
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                //new(ClaimTypes.Name, user.UserName ?? ""),
+            }),
             IssuedAt = DateTime.UtcNow,
             NotBefore = DateTime.UtcNow,
             Expires = DateTime.UtcNow.Add(_jwtSettings.ExpiresIn),

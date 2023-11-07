@@ -10,6 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Project1024.Server.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddDbContext<VideoContext>(options =>
@@ -48,6 +51,8 @@ builder.Services.AddIdentityCore<User>(options =>
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<VideoService>();
 builder.Services.AddScoped<VideoCategoryService>();
+builder.Services.AddScoped<UserFollowerService>();
+builder.Services.AddScoped<LikeService>();
 builder.Services.AddSingleton<QiniuService>();
 builder.Services.Configure<QiniuOptions>(builder.Configuration.GetSection("Qiniu"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
@@ -71,6 +76,37 @@ builder.Services
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(options => { options.TokenValidationParameters = tokenValidationParameters; });
+
+
+
+//测试swaggger加token
+builder.Services.AddSwaggerGen(s =>
+{
+    s.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Description = "在下框中输入请求头中需要添加Jwt授权Token：Bearer Token",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+    s.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme{
+                                Reference = new OpenApiReference {
+                                            Type = ReferenceType.SecurityScheme,
+                                            Id = "Bearer"}
+                           },new string[] { }
+                        }
+                    });
+
+
+});
+//测试swaggger加token
 
 var app = builder.Build();
 

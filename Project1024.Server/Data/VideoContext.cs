@@ -7,6 +7,9 @@ namespace Project1024.Server.Data
     {
         public DbSet<Video> Videos { get; set; }
         public DbSet<VideoCategory> VideoCategories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<UserFollower> UserFollowers { get; set; }
 
         public VideoContext(DbContextOptions<VideoContext> options) : base(options)
         {

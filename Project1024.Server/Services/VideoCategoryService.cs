@@ -7,14 +7,16 @@ namespace Project1024.Server.Services;
 public class VideoCategoryService
 {
     private readonly VideoContext _videoContext;
+    private readonly UserContext _userContext;
     private readonly QiniuOptions _qiniuOptions;
     private readonly QiniuService _qiniuService;
 
-    public VideoCategoryService(VideoContext videoContext, IOptions<QiniuOptions> options, QiniuService qiniuService)
+    public VideoCategoryService(VideoContext videoContext, IOptions<QiniuOptions> options, QiniuService qiniuService, UserContext userContext)
     {
         _videoContext = videoContext;
         _qiniuOptions = options.Value;
         _qiniuService = qiniuService;
+        _userContext = userContext;
     }
 
     public IEnumerable<VideoCategoryDto> GetVideoCategoryList()
@@ -31,6 +33,6 @@ public class VideoCategoryService
            .Skip(page * size)
            .Take(size)
            .OrderBy(v => v.Id)
-           .Select(v => new VideoDto(v.Id, v.Category.Id, v.Title, v.UploadTime, _qiniuService.DownloadTokenGenerator(v.CoverUrl, _qiniuOptions), _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions)));
+           .Select(v => new VideoDto(v.Id, v.Category.Id, v.UserId, _userContext.Users.Where(u => u.Id == v.UserId).Single().Nickname ?? "", v.Title, v.UploadTime, _qiniuService.DownloadTokenGenerator(v.CoverUrl, _qiniuOptions), _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions)));
     }
 }
