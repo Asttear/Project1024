@@ -38,13 +38,13 @@
     private const int PageSize = 5;
 
     private int _index = 0;
-    private int _page = 0;
+    private int _nextPage = 0;
     private List<VideoDto> _videos = new();
     private SwiperContainer _swiper = null!;
 
     protected async override Task OnInitializedAsync()
     {
-        var list = await VideoService.GetVideosAsync(_page, PageSize);
+        var list = await VideoService.GetVideosAsync(_nextPage++, PageSize);
         if (list is not null)
         {
             _videos.AddRange(list);
@@ -56,7 +56,7 @@
         _index = index;
         if (index == _videos.Count - 2)
         {
-            var list = await VideoService.GetVideosAsync(++_page, PageSize);
+            var list = await VideoService.GetVideosAsync(_nextPage++, PageSize);
             if (list is not null)
             {
                 _videos.AddRange(list);
