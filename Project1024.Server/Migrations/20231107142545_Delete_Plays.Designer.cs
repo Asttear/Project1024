@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project1024.Server.Data;
 
@@ -10,9 +11,11 @@ using Project1024.Server.Data;
 namespace Project1024.Server.Migrations
 {
     [DbContext(typeof(VideoContext))]
-    partial class VideoContextModelSnapshot : ModelSnapshot
+    [Migration("20231107142545_Delete_Plays")]
+    partial class Delete_Plays
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,10 +149,6 @@ namespace Project1024.Server.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time(6)")
                         .HasColumnName("duration");
-
-                    b.Property<int>("Likes")
-                        .HasColumnType("int")
-                        .HasColumnName("likes");
 
                     b.Property<string>("Title")
                         .IsRequired()
