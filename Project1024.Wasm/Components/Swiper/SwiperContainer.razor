@@ -1,0 +1,65 @@
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<swiper-container @ref="_swiperContainer" @attributes="Attributes">
+    @ChildContent
+</swiper-container>
+
+@code {
+    private ElementReference _swiperContainer;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _jsSwiper;
+    private DotNetObjectReference<SwiperJSHelper>? _objRef;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? Attributes { get; set; }
+
+    [Parameter]
+    public EventCallback<int> IndexChanged { get; set; }
+
+    public async Task SlidePrevAsync()
+    {
+        if (_jsSwiper is not null)
+            await _jsSwiper.InvokeVoidAsync("slidePrev");
+    }
+
+    public async Task SlideNextAsync()
+    {
+        if (_jsSwiper is not null)
+            await _jsSwiper.InvokeVoidAsync("slideNext");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore().ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual async ValueTask DisposeAsyncCore()
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("dispose");
+            await _module.DisposeAsync().ConfigureAwait(false);
+        }
+        if (_jsSwiper is not null)
+        {
+            await _jsSwiper.DisposeAsync().ConfigureAwait(false);
+        }
+        _module = null;
+        _jsSwiper = null;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _objRef = DotNetObjectReference.Create(new SwiperJSHelper(this));
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Swiper/SwiperContainer.razor.js");
+            _jsSwiper = await _module.InvokeAsync<IJSObjectReference>("init", _swiperContainer, _objRef);
+        }
+    }
+}

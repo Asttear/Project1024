@@ -1,4 +1,66 @@
 @page "/"
 @page "/Recommend"
+@inject IJSRuntime JS
 
-<h1>ÍÆ¼ö</h1>
+<div class="d-flex" style="position:absolute; height: 100%; width: 100%">
+    <SwiperContainer @ref="_swiper"
+                     IndexChanged="OnIndexChanged"
+                     class="flex-grow-1"
+                     direction="vertical"
+                     mousewheel="true"
+                     keyboard="true"
+                     focusable-elements="button"
+                     no-swiping-selector=".m-btn">
+        @for (int i = 0; i < 9; i++)
+        {
+            var current = i;
+            <SwiperSlide class="pa-2" style="box-sizing: border-box">
+                <VideoPlayer @ref="_players[current]" Test="current" Show="current < 2" AutoPlay="current == 0" Style="width: 100%; height: 100%" />
+            </SwiperSlide>
+        }
+    </SwiperContainer>
+    <div class="d-flex flex-column justify-center pa-2">
+        <MButton Fab Class="mb-1" Disabled="_index == 0" OnClick="() => _swiper.SlidePrevAsync()">
+             <MIcon>mdi-chevron-up</MIcon>
+         </MButton>
+         <MButton Fab Class="mt-1" Disabled="_index == _players.Count - 1" OnClick="() => _swiper.SlideNextAsync()">
+             <MIcon>mdi-chevron-down</MIcon>
+         </MButton>
+     </div>
+ </div>
+
+ @code {
+    private int _index = 0;
+    private SwiperContainer _swiper = null!;
+    private List<VideoPlayer> _players = new(Enumerable.Range(0, 9).Select<int, VideoPlayer>(i => null!));
+
+    private async Task OnIndexChanged(int index)
+    {
+        await _players[index].PlayAsync();
+        if (index > _index)
+        {
+            await _players[index - 1].PauseAsync();
+            if (index - 2 >= 0)
+            {
+                await _players[index - 2].HideAsync();
+            }
+            if (index < _players.Count - 1)
+            {
+                await _players[index + 1].ShowAsync();
+            }
+        }
+        else if (index < _index)
+        {
+            await _players[index + 1].PauseAsync();
+            if (index + 2 < _players.Count)
+            {
+                await _players[index + 2].HideAsync();
+            }
+            if (index > 0)
+            {
+                await _players[index - 1].ShowAsync();
+            }
+        }
+        _index = index;
+    }
+ }

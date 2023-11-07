@@ -5,6 +5,14 @@
     {
       "library": "MaterialDesign-Webfont@7.3.67",
       "destination": "wwwroot/lib/MaterialDesign-Webfont/"
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "swiper@11.0.3",
+      "destination": "wwwroot/lib/swiper/",
+      "files": [
+        "swiper-element-bundle.min.js"
+      ]
     }
   ]
 }
