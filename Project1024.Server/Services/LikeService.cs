@@ -23,6 +23,8 @@ public class LikeService
             TargetId = id,
             LikeDate = DateTime.UtcNow,
         });
+        var video = _videoContext.Videos.Single(l => l.Id == id);
+        video.Likes ++;
         _videoContext.SaveChanges();
         return true;
     }
@@ -32,6 +34,8 @@ public class LikeService
         List<Like> likes = _videoContext.Likes.Where(l => l.UserId == userId && l.TargetId == id && l.Type == 1).ToList();
         if (likes.Count == 0) return false;
         _videoContext.Likes.Remove(_videoContext.Likes.Single(l => l.UserId == userId && l.TargetId == id && l.Type == 1));
+        var video = _videoContext.Videos.Single(l => l.Id == id);
+        video.Likes --;
         _videoContext.SaveChanges();
         return true;
     }

@@ -38,7 +38,8 @@ public class VideoService : IVideoService
                                                v.Title,
                                                v.UploadTime,
                                                _qiniuService.DownloadTokenGenerator(v.CoverUrl, _qiniuOptions),
-                                               _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions)))
+                                               _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions),
+                                               v.Likes))
                      .ToList();
     }
 

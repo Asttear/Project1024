@@ -41,9 +41,10 @@ public class VideoCategoryService : IVideoCategoryService
                                                v.UserId,
                                                _userContext.Users.Single(u => u.Id == v.UserId).Nickname,
                                                v.Title,
-                                               v.UploadTime,
+                                               v.UploadTime, 
                                                _qiniuService.DownloadTokenGenerator(v.CoverUrl, _qiniuOptions),
-                                               _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions)))
+                                               _qiniuService.DownloadTokenGenerator(v.Url, _qiniuOptions),
+                                               v.Likes))
                      .ToList();
     }
 }
