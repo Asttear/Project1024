@@ -15,6 +15,6 @@ public class VideoService : IVideoService
 
     public async Task<List<VideoDto>?> GetVideosAsync(int page, int size)
     {
-        return await _httpClient.GetFromJsonAsync<List<VideoDto>>("api/Video");
+        return await _httpClient.GetFromJsonAsync<List<VideoDto>>($"api/Video?page={page}&size={size}");
     }
 }    
