@@ -2,6 +2,8 @@
 1024 Web 短视频  
 第二届七牛云 1024 创作节参赛项目
 
+![预览](Docs/img.png)
+
 ## 技术栈
 - [.NET](https://dot.net) / [C#](https://dotnet.microsoft.com/zh-cn/languages/csharp)
 - [ASP.NET Core](https://dotnet.microsoft.com/zh-cn/apps/aspnet) / [Web API](https://dotnet.microsoft.com/zh-cn/apps/aspnet/apis)
@@ -49,5 +51,8 @@
 - 执行 `dotnet run --project Project1024.Server` 以构建并运行服务端
 - 在浏览器中打开控制台输出的 URL 链接以访问应用
 
-## DEMO
-待补充
+由于七牛云提供的域名不支持 https 访问，请使用 http 协议访问应用。
+
+## 视频 DEMO
+链接：https://pan.baidu.com/s/1v6p4GCxGvrdL4wyfms60jg?pwd=ncue 
+提取码：ncue
