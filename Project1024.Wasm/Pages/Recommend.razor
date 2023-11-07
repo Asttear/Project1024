@@ -20,7 +20,7 @@
             bool show = idx >= _index - 1 && idx <= _index + 1;
             bool play = idx == _index;
             <SwiperSlide @key="_videos[idx].Id" class="pa-2" style="box-sizing: border-box">
-                <VideoPlayer Video="_videos[idx]" Show="show" Play="play" AutoPlay="play" Style="width: 100%; height: 100%" />
+                <VideoPlayer Video="_videos[idx]" Show="show" Play="play" Style="width: 100%; height: 100%" />
             </SwiperSlide>
         }
     </SwiperContainer>

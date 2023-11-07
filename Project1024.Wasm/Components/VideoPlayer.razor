@@ -11,7 +11,7 @@
                src="@Video?.VideoUrl"
                preload="auto"
                playsinline
-               autoplay="@AutoPlay"
+               autoplay="@Play"
                loop
                controls
                controlslist="nodownload noremoteplayback">
@@ -53,9 +53,6 @@
 
     [Parameter]
     public bool Show { get; set; } = true;
-
-    [Parameter]
-    public bool AutoPlay { get; set; }
 
     [Parameter]
     public bool Play { get; set; }
