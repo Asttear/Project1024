@@ -9,7 +9,7 @@ namespace Project1024.Shared.Models;
 public record UserDto
 (
     int Id,
-    string Nickname,
-    string AvatarUrl,
-    string Signature
+    string? Nickname,
+    string? AvatarUrl,
+    string? Signature
 );

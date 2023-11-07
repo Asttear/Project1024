@@ -18,10 +18,10 @@ public class User : IdentityUser<int>
     /// <summary>
     /// 个性签名
     /// </summary>
-    [MaxLength(255)] public string Signature { get; set; } = "这个人很懒，什么都没有写";
+    [MaxLength(255)] public string? Signature { get; set; }
 
     /// <summary>
     /// 昵称
     /// </summary>
-    [MaxLength(25)] public string Nickname { get; set; } = "";
+    [MaxLength(25)] public string? Nickname { get; set; }
 }

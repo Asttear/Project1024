@@ -5,7 +5,7 @@ public record VideoDto
     int Id,
     int CategoryId,
     int AuthorId,
-    string AuthorName,
+    string? AuthorName,
     string Title,
     DateTimeOffset CreatedTime,
     string CoverUrl,
