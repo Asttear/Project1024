@@ -1,18 +1,13 @@
-using Microsoft.EntityFrameworkCore;
-using Project1024.Server.Data;
-using Project1024.Server.Services;
-using System.Configuration;
-using System;
-using Microsoft.Extensions.Options;
-using Project1024.Server.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Project1024.Server.Models;
-using Microsoft.AspNetCore.Identity;
-using Project1024.Shared.Services;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Mvc.Filters;
+using Project1024.Server.Data;
+using Project1024.Server.Models;
+using Project1024.Server.Services;
+using Project1024.Server.Settings;
+using Project1024.Shared.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,6 +55,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSet
 
 var securityKey = builder.Configuration.GetRequiredSection("JwtSettings")["SecurityKey"]
                   ?? throw new InvalidOperationException("SecurityKey cannot be null!");
+
 var tokenValidationParameters = new TokenValidationParameters
 {
     ValidateIssuer = false,
@@ -78,8 +74,6 @@ builder.Services
     })
     .AddJwtBearer(options => { options.TokenValidationParameters = tokenValidationParameters; });
 
-
-
 //≤‚ ‘swagggerº”token
 builder.Services.AddSwaggerGen(s =>
 {
@@ -95,17 +89,15 @@ builder.Services.AddSwaggerGen(s =>
     });
 
     s.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme{
-                                Reference = new OpenApiReference {
-                                            Type = ReferenceType.SecurityScheme,
-                                            Id = "Bearer"}
-                           },new string[] { }
-                        }
-                    });
-
-
+    {
+        {
+            new OpenApiSecurityScheme{
+                Reference = new OpenApiReference {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"}
+           }, Array.Empty<string>()
+        }
+    });
 });
 //≤‚ ‘swagggerº”token
 
@@ -119,11 +111,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 app.Run();

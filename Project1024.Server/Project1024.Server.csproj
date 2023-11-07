@@ -10,6 +10,7 @@
     <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
     <PackageReference Include="jose-jwt" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
@@ -29,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Project1024.Shared\Project1024.Shared.csproj" />
+    <ProjectReference Include="..\Project1024.Wasm\Project1024.Wasm.csproj" />
   </ItemGroup>
 
 </Project>
