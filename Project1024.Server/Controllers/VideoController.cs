@@ -42,4 +42,17 @@ public class VideoController : ControllerBase
             return Conflict();
         return Ok();
     }
+
+    [HttpPost("{id}/unlike")]
+    public IActionResult UnLike(int id)
+    {
+        //获取用户id
+        ClaimsPrincipal user = HttpContext.User;
+
+        string userIdStr = _userManager.GetUserId(user)!;
+        int userId = int.Parse(userIdStr);
+        if (!_likeService.VideoUnLike(userId, id))
+            return Conflict();
+        return Ok();
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using Project1024.Server.Data;
 using Project1024.Server.Models;
-using Project1024.Shared.Models;
 
 namespace Project1024.Server.Services;
 
@@ -15,7 +14,7 @@ public class LikeService
 
     public bool VideoLike(int userId, int id)
     {
-        List<Like> likes = _videoContext.Likes.Where(l => l.UserId == userId && l.TargetId == id).ToList();
+        List<Like> likes = _videoContext.Likes.Where(l => l.UserId == userId && l.TargetId == id && l.Type == 1).ToList();
         if (likes.Count > 0) return false;
         _videoContext.Likes.Add(new Like ()
         {
@@ -26,6 +25,14 @@ public class LikeService
         });
         _videoContext.SaveChanges();
         return true;
+    }
 
+    public bool VideoUnLike(int userId, int id)
+    {
+        List<Like> likes = _videoContext.Likes.Where(l => l.UserId == userId && l.TargetId == id && l.Type == 1).ToList();
+        if (likes.Count == 0) return false;
+        _videoContext.Likes.Remove(_videoContext.Likes.Single(l => l.UserId == userId && l.TargetId == id && l.Type == 1));
+        _videoContext.SaveChanges();
+        return true;
     }
 }
