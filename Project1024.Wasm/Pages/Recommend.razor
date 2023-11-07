@@ -16,11 +16,11 @@
                      no-swiping-selector=".m-btn">
         @for (int i = 0; i < _videos.Count; i++)
         {
-            int idx = i;
-            bool show = idx >= _index - 1 && idx <= _index + 1;
-            bool play = idx == _index;
-            <SwiperSlide @key="_videos[idx].Id" class="pa-2" style="box-sizing: border-box">
-                <VideoPlayer Video="_videos[idx]" Show="show" Play="play" Style="width: 100%; height: 100%" />
+            VideoDto video = _videos[i];
+            bool show = i >= _index - 1 && i <= _index + 1;
+            bool play = i == _index;
+            <SwiperSlide @key="video.Id" class="pa-2" style="box-sizing: border-box">
+                <VideoPlayer Video="video" Show="show" Play="play" Style="width: 100%; height: 100%" />
             </SwiperSlide>
         }
     </SwiperContainer>
@@ -38,13 +38,17 @@
     private const int PageSize = 5;
 
     private int _index = 0;
-    private int _page = 0;
+    private int _nextPage = 0;
+    private List<VideoDto> _videos = new();
     private SwiperContainer _swiper = null!;
-    private List<VideoDto> _videos = null!;
 
     protected async override Task OnInitializedAsync()
     {
-        _videos = await VideoService.GetVideosAsync(_page, PageSize) ?? new();
+        var list = await VideoService.GetVideosAsync(_nextPage++, PageSize);
+        if (list is not null)
+        {
+            _videos.AddRange(list);
+        }
     }
 
     private async Task OnIndexChanged(int index)
@@ -52,7 +56,7 @@
         _index = index;
         if (index == _videos.Count - 2)
         {
-            var list = await VideoService.GetVideosAsync(++_page, PageSize);
+            var list = await VideoService.GetVideosAsync(_nextPage++, PageSize);
             if (list is not null)
             {
                 _videos.AddRange(list);

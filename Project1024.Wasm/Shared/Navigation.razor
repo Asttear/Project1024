@@ -44,10 +44,14 @@
 </MNavigationDrawer>
 
 @code {
-    private List<VideoCategoryDto> _categories = null!;
+    private List<VideoCategoryDto> _categories = new();
 
     protected override async Task OnInitializedAsync()
     {
-        _categories = await VideoCategoryService.GetVideoCategoriesAsync() ?? new();
+        var list = await VideoCategoryService.GetVideoCategoriesAsync();
+        if (list is not null)
+        {
+            _categories.AddRange(list);
+        }
     }
 }
