@@ -58,23 +58,10 @@
     public bool AutoPlay { get; set; }
 
     [Parameter]
+    public bool Play { get; set; }
+
+    [Parameter]
     public VideoDto? Video { get; set; }
-
-    public async Task PlayAsync()
-    {
-        if (_jsVideo is not null)
-        {
-            await _jsVideo.InvokeVoidAsync("play");
-        }
-    }
-
-    public async Task PauseAsync()
-    {
-        if (_jsVideo is not null)
-        {
-            await _jsVideo.InvokeVoidAsync("pause");
-        }
-    }
 
     public async ValueTask DisposeAsync()
     {
@@ -89,6 +76,14 @@
             await _jsVideo.DisposeAsync().ConfigureAwait(false);
         }
         _jsVideo = null;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_jsVideo is not null)
+        {
+            await _jsVideo.InvokeVoidAsync(Play ? "play" : "pause");
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
