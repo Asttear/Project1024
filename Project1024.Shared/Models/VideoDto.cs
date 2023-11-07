@@ -9,5 +9,6 @@ public record VideoDto
     string Title,
     DateTimeOffset CreatedTime,
     string CoverUrl,
-    string VideoUrl
+    string VideoUrl,
+    int Likes
 );
