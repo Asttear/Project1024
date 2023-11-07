@@ -16,7 +16,7 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("Action/Register")]
+    [HttpPost("Register")]
     public async Task<IActionResult> RegisterAsync(RegisterDto dto)
     {
         if (!ModelState.IsValid)
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
         };
     }
 
-    [HttpPost("Action/Login")]
+    [HttpPost("Login")]
     public async Task<IActionResult> LoginAsync(LoginDto dto)
     {
         if (!ModelState.IsValid)
